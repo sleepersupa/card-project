@@ -1,0 +1,23 @@
+.nav-bar{
+  display flex;
+  flex-direction row;
+  justify-content flex-start ;
+  flex-wrap wrap;
+  .nav-item{
+    padding 15px 20px;
+    font-weight 600 ;
+    position: relative;
+    color #343434
+    &:after{
+      content : "";
+      position absolute;
+      top 50%;
+      right 0 ;
+      transform translate(0, -50%);
+      width 1px;
+      background #838383;
+
+      height : calc(100% - 8px) ;
+    }
+  }
+}

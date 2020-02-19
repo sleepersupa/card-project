@@ -1,17 +1,27 @@
-.form-group {
-    margin-bottom 2rem;
-    //position relative;
-    &.input{
-        height 60px !important
+.form-group-sl {
+    width 100%;
+    margin-bottom 20px;
+    .control-label-sl{
+        font-weight 600;
     }
-    .form-control {
-        color black !important;
+    .form-control-sl {
+        width 100%;
+        outline none ;
+        color #646464;
+        border 1px solid #b9b9b9;
+        &:focus{
+            border 1px solid #00b1ff;
+        }
+        border-radius 5px;
+        padding 5px 10px;
+        &.is-invalid{
+            border 1px solid red;
+        }
     }
 
     .error-text {
         color red;
         font-size 12px;
-        margin-top: 5px;
-        //position absolute;
+        position absolute;
     }
 }

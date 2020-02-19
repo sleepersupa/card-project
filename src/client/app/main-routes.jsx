@@ -5,9 +5,13 @@ import {userServices} from "./services/user-info";
 import {LoginPage} from "./pages/login/login";
 import {cartState} from "../../security/services/cart-state";
 import {AddCard} from "./pages/add-card/add-card";
-import {ValidationSchemaExample} from "./pages/lg/lg";
 import {EditCard} from "./pages/edit-card/edit-card";
 import {ListCards} from "./pages/list-cards/list-cards";
+import {ModalsRegistry} from "./component/modal/modals";
+import {DefaultLayout} from "./pages/default-layout";
+import {AdminLayout} from "./pages/admin-layout";
+import {StandingPage} from "./pages/standing-page/standing-page";
+
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
         constructor(props, context) {
@@ -31,6 +35,22 @@ export class MainRoutes extends BaseComponent {
         cartState.onChange(() => this.forceUpdate())
     }
 
+    guestWrapper = (Wrapper) => (props) => {
+        return (
+            <DefaultLayout {...props}>
+                <Wrapper {...props}/>
+            </DefaultLayout>
+        )
+    };
+
+    adminWrapper =(Wrapper) => (props) => {
+        return (
+            <AdminLayout {...props}>
+                <Wrapper {...props}/>
+            </AdminLayout>
+        )
+    };
+
 
     render() {
 
@@ -47,21 +67,37 @@ export class MainRoutes extends BaseComponent {
             }
             return redirect("/")
         };
+        let GameComp = () => (<div>Game 1</div>)
+        let guessRoutes = [
+            { path: "/", component: StandingPage },
+            { path: "/game-1", component: GameComp },
+            { path: "/game-2", component: GameComp },
+            { path: "/game-3", component: GameComp },
+        ]
 
+        let authenRoutes = [
+            { path: "/add-card", component: AddCard },
+            { path: "/card/:id", component: EditCard },
+            { path: "/cards", component: ListCards },
+        ]
 
         return (
             <div className="main-routes">
                 <BrowserRouter>
                     <Switch>
-                        <Route path="/" exact component={LoginPage}/>
-                        <Route path="/lg" exact component={ValidationSchemaExample}/>
-                        <Route path="/add-card" exact component={AddCard}/>
-                        <Route path="/card/:id" exact component={EditCard}/>
-                        <Route path="/cards" exact component={ListCards}/>
-                        <Route exact render={()=><Redirect to="/" />}/>
 
+                        {guessRoutes.map((r,i) => (
+                            <Route key={r.path} path={r.path} exact component={this.guestWrapper(r.component)}/>
+                        ))}
+
+                        {authenRoutes.map((r, i) => (
+                            <Route key={r.path} path={r.path} exact component={this.adminWrapper(r.component)}/>
+                        ))}
+                        <Route exact render={()=><Redirect to="/" />}/>
                     </Switch>
                 </BrowserRouter>
+                <ModalsRegistry/>
+
             </div>
         );
     }

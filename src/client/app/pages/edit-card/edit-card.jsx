@@ -22,19 +22,12 @@ export class EditCard extends React.Component {
         return(
             <div className='edit-card-wrapper'>
                 <h1 className='main-label'>Edit Card</h1>
-                {
-                    cardDraft && (
-                        <CardForm
-                            {...this.state.cardDraft}
-                            onChangeImage={(value) => this.setState({ cardDraft: {...cardDraft , filePath : value } })}
-                            onSubmit={(data) => {
-                                cardApi.modifyCard({...data, filePath: cardDraft.filePath , _id : cardDraft._id  }).then(({error , message })=>{
-                                    alert(message);
-                                })
-                            }}
-                        />
-                    )
-                }
+                {cardDraft && (
+                    <CardForm
+                        card={cardDraft}
+                        editType
+                    />
+                )}
 
             </div>
         )

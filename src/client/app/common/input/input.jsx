@@ -19,9 +19,9 @@ export class Input extends React.Component {
 
         return (
 
-            <div className={classnames("form-group input", className, focus && "focused")}>
+            <div className={classnames("form-group-sl input-sl", className, focus && "focused")}>
                 {label && (
-                    <label className="control-label">
+                    <label className="control-label-sl">
                         {label}
                     </label>
                 )}
@@ -29,7 +29,7 @@ export class Input extends React.Component {
                 <input
                     ref={input => this.input = input}
                     value={value === undefined ? "" : value}
-                    className={classnames("form-control", error && "is-invalid")}
+                    className={classnames("form-control-sl", error && "is-invalid")}
                     placeholder={placeholder}
                     onChange={onChange}
                     onFocus={() => {this.setState({focus: true}); onFocus && onFocus()}}

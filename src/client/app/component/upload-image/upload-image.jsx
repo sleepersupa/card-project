@@ -28,11 +28,18 @@ export class UploadImage extends React.Component{
         // reader.readAsDataURL(file)
 
     }
-    handleSubmit(){
-        uploadApi.upload(this.state.file).then(data=> console.log(data))
+
+    componentDidMount(){
+
     }
+
+    // handleSubmit(){
+    //     uploadApi.upload(this.state.file).then(data=> console.log(data))
+    // }
+
     render(){
-        const {height,classNames, filePath , multiple } =this.props;
+        const { classNames, filePath , multiple, error , onChange } =this.props;
+        console.log(filePath)
         return(
             <div className={classnames('upload-image',...classNames)}>
                 <input
@@ -41,15 +48,26 @@ export class UploadImage extends React.Component{
                     multiple={multiple}
                     onChange={(e)=>this.handleImgFile(e)}
                     accept="image/x-png,image/gif,image/jpeg"
-                    // ref={inputFile => this.inputFile= inputFile}
+                    ref={inputFile => this.inputFile= inputFile}
                 />
-                {/*<button*/}
-                    {/*onClick={()=> this.handleSubmit()}*/}
-                {/*>*/}
-                    {/*Sub*/}
-                {/*</button>*/}
-                <div>
-                    <img height={height} src={filePath || null} id='blah' alt=""/>
+
+
+                {filePath ? (
+                    <div className='image-wrapper'>
+                        <img src={filePath || null} className='image-display' alt="" />
+                        <i
+                            onClick={()=> onChange(null) }
+                            className="far fa-trash-alt"></i>
+                    </div>
+
+                ) : (
+                    <i
+                        onClick={() => this.inputFile.click()}
+                        className="fas fa-plus"></i>
+                )}
+
+                <div className="error-text">
+                    {error}
                 </div>
 
 

@@ -20,7 +20,6 @@
     "classnames": "^2.2.6",
     "css-loader": "^0.28.10",
     "file-loader": "^1.1.11",
-    "formik": "^2.1.1",
     "fs": "0.0.1-security",
     "history": "^4.7.2",
     "https": "^1.0.0",
@@ -47,8 +46,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "url-loader": "^0.6.2",
-    "validator": "^9.4.1",
-    "yup": "^0.28.0"
+    "validator": "^9.4.1"
   },
   "devDependencies": {
     "webpack-merge": "^4.1.4",

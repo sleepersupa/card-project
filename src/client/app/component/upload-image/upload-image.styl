@@ -1,3 +1,47 @@
 .upload-image{
+  width 160px;
+  height 160px;
+  position relative;
 
+
+  .inputImage{
+    display none;
+  }
+
+  .image-wrapper{
+    .image-display{
+      position absolute;
+      max-width 160px;
+      max-height  160px;
+      border-radius 8px;
+      left 50%;
+      top 50% ;
+      transform translate(-50%, -50%);
+      font-size 160px;
+    }
+    .fa-trash-alt{
+      position absolute;
+      top: -13px;
+      color: #f00;
+      right: -20px;
+      z-index 20;
+      font-size 20px;
+    }
+  }
+
+
+  .error-text {
+    color red;
+    font-size 12px;
+    margin-top: 5px;
+    position absolute;
+    bottom -10px;
+  }
+  .fa-plus{
+    position absolute;
+    left 50%;
+    top 50% ;
+    transform translate(-50%, -50%);
+    font-size 160px;
+  }
 }
