@@ -9,6 +9,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/card-proj
 app.use(express.static(__dirname) );
 app.use("/api", bodyParser.json());
 let router = express.Router();
+console.log("server running")
 app.use("/api", router);
 require("../server-controllers/user-controller")(router)
 require("../server-controllers/upload-controller")(router)
