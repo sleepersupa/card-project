@@ -29,7 +29,7 @@
       }
       .main-game-name{
         padding-left 20px;
-        color white;
+        color white !important;
         font-size 18px;
         font-weight bold;
         display: flex;
@@ -42,19 +42,20 @@
         justify-content space-between;
         align-items: center;
         .form-group-sl{
-          padding-left 20px;
           margin-bottom 0;
+          padding-left 20px;
           &.input-sl{
-            width : calc(100% - 80px );
+            flex none !important;
+            width : calc(100% - 50px );
           }
           .form-control-sl{
-            padding 10px 10px;
+            padding 15px 20px;
           }
         }
 
         .btn-search{
-          width 48px;
-          height 48px;
+          width 45px;
+          height 45px;
           background #71be9d
           border 1px solid #5e9e83;
           border-radius 6px;

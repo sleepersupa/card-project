@@ -1,25 +1,31 @@
-.text-area-form{
-  width 100%
-  //float right
-  //padding 20px
-  //margin-right 20px
-  .label{
-    display block
-    font-size 16px
-    float left
+.text-area-sl{
+  width 100%;
+  margin-bottom 20px;
+  .control-label-sl{
+    font-weight 600;
+    margin-bottom 8px;
   }
-  .text-area{
-    width 100%
+  .form-control-sl {
     resize vertical
     min-height 80px
-    padding 5px 10px;
-    height 80px
-    border 1px solid #e2e2e2
-    border-radius 3px
-    display block
-    //padding 5px
-    //margin-bottom 15px
-    //margin-top 5px
+    display block;
+    width 100%;
+    outline none ;
+    color #646464;
+    border 1px solid #b9b9b9;
+    &:focus{
+      border 1px solid #00b1ff;
+    }
+    border-radius 5px;
+    padding 10px 15px;
+    &.is-invalid{
+      border 1px solid red;
+    }
   }
 
+  .error-text {
+    color red;
+    font-size 12px;
+    position absolute;
+  }
 }

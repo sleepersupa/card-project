@@ -21,9 +21,9 @@ export class Input extends React.Component {
 
             <div className={classnames("form-group-sl input-sl", className, focus && "focused")}>
                 {label && (
-                    <label className="control-label-sl">
+                    <div className="control-label-sl">
                         {label}
-                    </label>
+                    </div>
                 )}
 
                 <input

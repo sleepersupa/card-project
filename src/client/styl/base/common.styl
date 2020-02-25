@@ -28,6 +28,7 @@ html
 
 button
   cursor pointer
+  outline none;
 a
   text-decoration none
 @keyframes faded{
@@ -88,13 +89,30 @@ ul{
   }
 }
 
-flex-row{
-    display flex ;
-    flex-direction row ;
+.flex-row{
+  display flex ;
+  box-sizing: border-box;
+  flex-direction row ;
 }
 
 
-flex-column{
-    display flex ;
-    flex-direction column ;
+.flex-column{
+  display flex ;
+  box-sizing: border-box;
+  flex-direction column ;
+}
+
+.text-center{
+  text-align center;
+}
+.text-left {
+  text-align left;
+}
+
+.text-right {
+  text-align right;
+}
+
+div, span, input {
+  box-sizing: border-box;
 }

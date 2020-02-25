@@ -4,7 +4,7 @@ const CardDao = require('../dao/card-dao');
 
 
 module.exports =(app) =>{
-    app.post('/add-card' ,  async  (req,res) =>{
+    app.post('/manage-cards' ,  async  (req,res) =>{
         try{
             let card = await CardDao.create(req.body);
             return res.send({error : false , message : 'Done !' , card : card })

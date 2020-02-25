@@ -4,19 +4,36 @@ export class PaginationTable extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            loading :false ,
             page :1
         };
     };
-    componentWillReceiveProps(nextProps){
-        if(nextProps.list && nextProps.list.length !=  this.props.list.length){
-            this.setState({
-                page : 1
-            })
-        }
+
+    componentDidMount(){
+        this.props.api().then(()=>{
+            this.setState({ loading :false })
+        })
     }
+    // componentWillReceiveProps(nextProps){
+    //     if(nextProps.list && nextProps.list.length !=  this.props.list.length){
+    //         this.setState({
+    //             page : 1
+    //         })
+    //     }
+    // }
+
+    refresh(){
+        const {api} = this.props;
+        api().then(()=>{
+            this.setState({loading : false })
+        })
+    }
+
+
     render(){
         const {columns,list, redirect =null,perPage=10} =this.props;
         const {page} =this.state;
+        console.log(list);
         return(
             <div className="pagination-table-cover">
                 <table>
@@ -65,8 +82,9 @@ export class PaginationTable extends React.Component{
                         }
                     </tbody>
                 </table>
+
                 {
-                    list && list.length==0 ? (<div style={{"textAlign" :"left"}}>No result</div>) :
+                    !list || list.length==0 ? (<div style={{"textAlign" :"left"}}>No result</div>) :
                         <Pagination
                             total={list.length}
                             pageNum={this.state.page}

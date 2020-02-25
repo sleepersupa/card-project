@@ -4,13 +4,13 @@ import {BaseComponent} from "./common/base-comp";
 import {userServices} from "./services/user-info";
 import {LoginPage} from "./pages/login/login";
 import {cartState} from "../../security/services/cart-state";
-import {AddCard} from "./pages/add-card/add-card";
-import {EditCard} from "./pages/edit-card/edit-card";
-import {ListCards} from "./pages/list-cards/list-cards";
 import {ModalsRegistry} from "./component/modal/modals";
 import {DefaultLayout} from "./pages/default-layout";
 import {AdminLayout} from "./pages/admin-layout";
 import {StandingPage} from "./pages/standing-page/standing-page";
+import {ManageGames} from "./pages/manage-games/manage-games";
+import {ManageCards} from "./pages/manage-cards/manage-cards";
+import {Settings} from "./pages/settings/settings";
 
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
@@ -76,9 +76,9 @@ export class MainRoutes extends BaseComponent {
         ]
 
         let authenRoutes = [
-            { path: "/add-card", component: AddCard },
-            { path: "/card/:id", component: EditCard },
-            { path: "/cards", component: ListCards },
+            { path: "/manage-cards", component: ManageCards },
+            { path: "/manage-games", component: ManageGames },
+            { path: "/settings", component: Settings },
         ]
 
         return (
