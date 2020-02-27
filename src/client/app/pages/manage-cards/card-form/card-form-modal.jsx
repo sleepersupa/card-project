@@ -3,7 +3,6 @@ import {Input} from "../../../common/input/input";
 import {UploadImage} from "../../../component/upload-image/upload-image";
 import {Form} from "../../../common/form/form";
 import {minLength, required} from "../../../common/form/validations";
-import {modals} from "../../../component/modal/modals";
 import {cardApi} from "../../../../api/card/card-api";
 
 export class CardFormModal extends React.Component {

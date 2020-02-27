@@ -11,6 +11,7 @@ import {StandingPage} from "./pages/standing-page/standing-page";
 import {ManageGames} from "./pages/manage-games/manage-games";
 import {ManageCards} from "./pages/manage-cards/manage-cards";
 import {Settings} from "./pages/settings/settings";
+import {SubmitTeam} from "./pages/submit-team/submit-team";
 
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
@@ -73,6 +74,7 @@ export class MainRoutes extends BaseComponent {
             { path: "/game-1", component: GameComp },
             { path: "/game-2", component: GameComp },
             { path: "/game-3", component: GameComp },
+            { path: "/submit-team", component: SubmitTeam },
         ]
 
         let authenRoutes = [
