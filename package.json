@@ -4,8 +4,8 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "forever start NODE_ENV=production build/server.js",
-    "stop": "forever stop NODE_ENV=production build/server.js",
+    "start": "forever start -c node NODE_ENV=production build/server.js",
+    "stop": "forever stop -c NODE_ENV=production build/server.js",
     "wp": "webpack --watch"
   },
   "author": "",
