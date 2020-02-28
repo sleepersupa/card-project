@@ -2,9 +2,10 @@
 module.exports =(app) => {
 
     const multer = require("multer");
+    let prodMode = process.env.NODE_ENV === 'production';
     const storage= multer.diskStorage({
         destination:(req, file, cb)=>{
-            cb(null,__dirname+ "/../dist/uploads/") ;
+            cb(null,__dirname+ `/../${prodMode ? "build" : "dist"}/uploads/`) ;
         },
         filename:(req, file, cb)=>{
             // cb(null,file.originalname) ;
