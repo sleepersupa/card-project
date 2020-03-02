@@ -24,14 +24,31 @@ export class HeroSelect extends React.Component {
     // }
 
     render() {
-        const {heroes} =this.props;
+        const {heroes , onSelect ,error , onDelete } =this.props;
         if(!heroes || heroes.length <= 0) return <LoadingInline/>
         return(
             <div
                 className='hero-select'>
                 {heroes.map(hero =>(
-                    <img className='hero-image' src={hero.filePath} alt=""/>
+                    <div className='hero-wrap'>
+                        <img
+                            onClick={()=> onSelect && onSelect(hero)}
+                            className='hero-image' src={hero.filePath} alt=""/>
+                        {/*{onDelete && (*/}
+                        {/*    <i*/}
+                        {/*        onClick={()=> onDelete(hero) }*/}
+                        {/*        className="far fa-trash-alt"></i>*/}
+                        {/*)}*/}
+                    </div>
+
                 ))}
+
+                {error && (
+                    <div className="error-text">
+                        {error}
+                    </div>
+                )}
+
             </div>
         )
     }

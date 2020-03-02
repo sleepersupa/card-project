@@ -15,13 +15,18 @@ export class CardFormModal extends React.Component {
 
 
     onSubmit() {
-        const {editType, onClose } = this.props;
+        const {editType, onClose , onDelete} = this.props;
 
         if (editType) {
-            cardApi.modifyCard(this.state.card).then(()=> onClose && onClose());
+            cardApi.modifyCard(this.state.card).then(() => onClose && onClose());
         } else {
-            cardApi.addCard(this.state.card).then(()=> onClose && onClose());
+            cardApi.addCard(this.state.card).then(() => onClose && onClose());
         }
+    }
+
+    onDelete(id) {
+        const {editType, onClose} = this.props;
+        cardApi.deleteCard(id).then(() => { onClose && onClose()})
     }
 
     render() {
@@ -41,13 +46,14 @@ export class CardFormModal extends React.Component {
                 <div className="modal-header">
                     {editType ? "Edit Card" : "Add New Card"}
                 </div>
-                <div className="modal-body">
-                    <Form
-                        onSubmit={() => this.onSubmit()}
-                        formValue={card}
-                        validations={validations}
-                        render={(getInvalidByKey, invalidPaths) => (
-                            <div>
+                <Form
+                    onSubmit={() => this.onSubmit()}
+                    formValue={card}
+                    validations={validations}
+                    render={(getInvalidByKey, invalidPaths) => (
+                        <div>
+                            <div className="modal-body">
+
                                 <Input
                                     value={card.card_name}
                                     onChange={(e) => this.setState({card: {...card, card_name: e.target.value}})}
@@ -75,11 +81,16 @@ export class CardFormModal extends React.Component {
                                 </div>
 
 
-                                <button className='btn-green' type="submit">Submit</button>
                             </div>
-                        )}
-                    />
-                </div>
+
+                            <div className="modal-footer">
+                                <button className='btn-green' type="submit">Submit</button>
+                                {editType && <button className='btn-orange' onClick={()=> {}}>Delete</button>}
+                            </div>
+
+                        </div>
+                    )}
+                />
 
             </div>
         )

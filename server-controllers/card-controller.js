@@ -43,4 +43,13 @@ module.exports =(app) =>{
             return res.send({error : true , message : 'Failed !'})
         }
     })
+
+    app.delete('/card/:id' , async (req,res)=>{
+        try{
+            let card =  await CardDao.findOne({_id : req.params.id })
+            return res.send({error : false , card : card})
+        }  catch (e) {
+            return res.send({error : true , message : 'Failed !'})
+        }
+    })
 }

@@ -13,6 +13,7 @@ export class BestList extends React.Component {
         return(
             <div className='best-list'>
                 <div className='head'>
+                    <i className="fas fa-bars"></i>
                     {label}
                 </div>
 

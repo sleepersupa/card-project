@@ -4,7 +4,7 @@ export const required = (path) => (val) => ({
 });
 
 export const minLength = (length, path) => (val) => ({
-    text: `${path} phải có ít nhất ${length} kí tự`,
+    text: `${path} phải có ít nhất ${length} ${typeof val === 'string' ? "kí tự" : path}`,
     valid: val ? val.length >= length : true
 });
 
