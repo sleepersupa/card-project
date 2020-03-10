@@ -23,6 +23,7 @@ export class BuildTeamForm extends React.Component {
         const {cards} = this.props;
         let validations =[
             {"name": [required("Build Name"), minLength(3, "Build Name")]},
+            {"created_by": [required("Creator Name"), minLength(3, "Creator Name")]},
             {"heroes": [minLength(4, "Build Heroes")]},
         ]
         console.log(build)
@@ -60,6 +61,14 @@ export class BuildTeamForm extends React.Component {
                                 label="Team Building Name"
                                 type="name"
                                 error={getInvalidByKey("name")}
+                            />
+
+                            <Input
+                                value={build.created_by}
+                                onChange={(e) => this.setState({build: {...build, created_by: e.target.value}})}
+                                label="Creator Name"
+                                type="created_by"
+                                error={getInvalidByKey("created_by")}
                             />
                         </div>
                         <div className="step row no-margin">

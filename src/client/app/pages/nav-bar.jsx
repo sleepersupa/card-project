@@ -1,30 +1,45 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import NavLink from "react-router-dom/NavLink";
 export class NavBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            game : this.props.match.params.game || null
         };
     }
 
-    render() {
+    componentWillReceiveProps(){
+        let rex = /\/g\/w+/g
+        if(rex.test(this.props.location.path)){
+            var game = this.props.match.params.game;
+            this.setState({game});
+        }
+    }
 
+    render() {
+        let rex = /\/g\/w+/g;
+        let {game} = this.state;
+        console.log(game)
         let navs = [
-            {label : "Home" , link : "/"},
-            {label : "Hero List" , link : "/hero-list"},
-            {label : "Best Formations" , link : "/best"},
-            {label : "Submit Team" , link : "/submit-team"},
-            {label : "Beginner Tip" , link : "/tip"},
-        ]
+            {label : "Home" , link : "/" , condition :()=> !rex.test(this.props.location.path) },
+            {label : "Hero List" , link : `/g/${game}/hero-list` , condition :()=> rex.test(this.props.location.path) },
+            {label : "Best Formations" , link : `/g/${game}/best` , condition :()=> rex.test(this.props.location.path)},
+            {label : "Submit Team" , link : `/g/${game}/submit-team` , condition :()=> rex.test(this.props.location.path)},
+            {label : "Submit List" , link : `/g/${game}/submit-list` , condition :()=> rex.test(this.props.location.path)},
+            {label : "Beginner Tip" , link : `/g/${game}/tip` , condition :()=> rex.test(this.props.location.path)},
+        ];
+
+
         return(
             <div className='nav-bar'>
-                {navs.map((n,i) => (
-                    <Link key={i} className='nav-item' to={n.link} >
+                {navs.filter(n => true ).map((n,i) => (
+                    <NavLink key={i} className='nav-item' to={n.link}
+                    >
                         <div>
                             {n.label}
                         </div>
-                    </Link>
+                    </NavLink>
                 ))}
             </div>
         )

@@ -26,8 +26,9 @@
     .item{
       display flex  ;
       flex-direction row;
-      position relative;
-      border-bottom 1px solid  #c1c1c1;
+      &:not(:last-child){
+        border-bottom 1px solid  #c1c1c1;
+      }
       padding 10px 0;
 
       .item-image{
@@ -37,14 +38,10 @@
       .item-name{
         padding-left 20px;
         display: flex;
-        justify-content: center;
+        flex 1 ;
         align-items: center;
       }
       .rating{
-        position absolute;
-        right 10px;
-        top 50% ;
-        transform translate(0 , -50%);
         .cur-rate{
           font-size 15px;
           font-weight 500;

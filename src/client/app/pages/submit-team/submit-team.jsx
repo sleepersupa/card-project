@@ -10,6 +10,7 @@ import {TextAreaForm} from "../../common/input-form/text-area-form/text-area-for
 import {minLength, required} from "../../common/form/validations";
 import {Editor} from "../../common/editor/editor";
 import {BuildTeamForm} from "./build-team-form";
+import {PageFormLayout} from "../standing-page/page-form-layout";
 export class SubmitTeam extends React.Component {
     constructor(props) {
         super(props);
@@ -21,33 +22,18 @@ export class SubmitTeam extends React.Component {
 
     render() {
         const {hero , cards} =  this.state;
-        console.log(hero)
-        console.log(cards)
-        return(
-            <div className='submit-team row'>
-                <div className="col-md-3 col-sm-12">
-                    <BestList
-                        label="Best PvP Heroes"
-                        list={cards}
-                    />
-                </div>
-                <div className="mid-side col-md-6 col-sm-12">
-                    {cards && (
-                        <BuildTeamForm
-                            build={{name : '', heroes: [] }}
-                            cards={cards}
-                        />
-                    )}
 
-                </div>
-                <div className="right-side col-md-3 col-sm-12">
-                    <BestList
-                        label="Best PvP Heroes"
-                        list={cards}
+        return (
+            <PageFormLayout
+                className='submit-team'
+            >
+                {({cards})=>(
+                    <BuildTeamForm
+                        build={{name : '', heroes: [] }}
+                        cards={cards}
                     />
-                </div>
-
-            </div>
+                )}
+            </PageFormLayout>
         )
     }
 }

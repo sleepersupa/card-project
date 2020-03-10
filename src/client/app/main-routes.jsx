@@ -12,6 +12,9 @@ import {ManageGames} from "./pages/manage-games/manage-games";
 import {ManageCards} from "./pages/manage-cards/manage-cards";
 import {Settings} from "./pages/settings/settings";
 import {SubmitTeam} from "./pages/submit-team/submit-team";
+import {SubmitList} from "./pages/submit-list/submit-list";
+import {BuildDisplay} from "./pages/build-display/build-display";
+import {AppLayout} from "./app-layout";
 
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
@@ -30,21 +33,16 @@ let redirect = (locate) => {
 
 
 export class MainRoutes extends BaseComponent {
-    constructor(props,context) {
-        super(props,context);
+    constructor(props, context) {
+        super(props, context);
         this.onUnmount(userServices.onChange(() => this.forceUpdate()));
         cartState.onChange(() => this.forceUpdate())
     }
 
-    guestWrapper = (Wrapper) => (props) => {
-        return (
-            <DefaultLayout {...props}>
-                <Wrapper {...props}/>
-            </DefaultLayout>
-        )
-    };
+    guestWrapper = (Wrapper , props) => (<Wrapper {...props}/>)
 
-    adminWrapper =(Wrapper) => (props) => {
+
+    adminWrapper = (Wrapper) => (props) => {
         return (
             <AdminLayout {...props}>
                 <Wrapper {...props}/>
@@ -55,14 +53,14 @@ export class MainRoutes extends BaseComponent {
 
     render() {
 
-        let token =localStorage.getItem("token") ;
+        let token = localStorage.getItem("token");
         let authenRoute = (Comp) => token ? Comp : redirect("/login");
         let unAuthenRoute = (Comp) => !token ? Comp : redirect("/");
         const requireAdmin = (comp) => {
             if (!token) {
                 return redirect("/login");
             }
-            let user = JSON.parse(localStorage.getItem("user-info") )
+            let user = JSON.parse(localStorage.getItem("user-info"))
             if (user.isAdmin) {
                 return comp;
             }
@@ -70,17 +68,15 @@ export class MainRoutes extends BaseComponent {
         };
         let GameComp = () => (<div>Game 1</div>)
         let guessRoutes = [
-            { path: "/", component: StandingPage },
-            { path: "/game-1", component: GameComp },
-            { path: "/game-2", component: GameComp },
-            { path: "/game-3", component: GameComp },
-            { path: "/submit-team", component: SubmitTeam },
+            {path: "/", component: StandingPage},
+
         ]
 
+
         let authenRoutes = [
-            { path: "/manage-cards", component: ManageCards },
-            { path: "/manage-games", component: ManageGames },
-            { path: "/settings", component: Settings },
+            {path: "/manage-cards", component: ManageCards},
+            {path: "/manage-games", component: ManageGames},
+            {path: "/settings", component: Settings},
         ]
 
         return (
@@ -88,19 +84,82 @@ export class MainRoutes extends BaseComponent {
                 <BrowserRouter>
                     <Switch>
 
-                        {guessRoutes.map((r,i) => (
-                            <Route key={r.path} path={r.path} exact component={this.guestWrapper(r.component)}/>
-                        ))}
+                        <AppLayout>
+                            <Fragment>
+                                {guessRoutes.map((r, i) => <Route exact key={r.path} path={r.path} render={(props)=> this.guestWrapper(r.component, props)}/>)}
 
-                        {authenRoutes.map((r, i) => (
-                            <Route key={r.path} path={r.path} exact component={this.adminWrapper(r.component)}/>
-                        ))}
-                        <Route exact render={()=><Redirect to="/" />}/>
+
+                                {authenRoutes.map((r, i) => <Route exact key={r.path} path={r.path} render={(props)=> this.guestWrapper(r.component, props)}/>)}
+
+
+                                <Route
+                                    path="/g/:game"
+                                    render={(props) => (
+                                        <DefaultLayout {...props}>
+                                            {(layoutProps) => (
+                                                <Fragment>
+                                                    <Route
+                                                        exact
+                                                        path='/g/:game/submit-team'
+                                                        render={(props) => <SubmitTeam {...props} {...layoutProps}/>}
+                                                    />
+
+                                                    <Route
+                                                        exact
+                                                        path='/g/:game/submit-list'
+                                                        render={(props) => <SubmitList {...props} {...layoutProps}/>}
+                                                    />
+
+                                                    <Route
+                                                        exact
+                                                        path='/g/:game/build/:slug'
+                                                        render={(props) => <BuildDisplay {...props} {...layoutProps}/>}
+                                                    />
+
+
+                                                    <Route
+                                                        exact
+                                                        path='/g/:game/manage-cards'
+                                                        render={(props) => <ManageCards {...props} {...layoutProps}/>}
+                                                    />
+                                                </Fragment>
+
+                                            )}
+
+                                        </DefaultLayout>
+                                    )}
+                                />
+                                {/*<Route exact render={() => <Redirect to="/"/>}/>*/}
+                            </Fragment>
+                        </AppLayout>
+
                     </Switch>
                 </BrowserRouter>
                 <ModalsRegistry/>
 
             </div>
         );
+    }
+}
+
+class GameLayout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    render() {
+        return (
+            <DefaultLayout>
+                {(layoutProps) => (
+                    <Route
+                        path='/g/:game/manage-cards'
+                        render={(props) => <ManageCards/>}
+                    />
+                )}
+
+            </DefaultLayout>
+
+        )
     }
 }

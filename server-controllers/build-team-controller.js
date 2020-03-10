@@ -8,4 +8,16 @@ module.exports =(app) => {
             res.json(item);
         })
     })
+
+    app.get("/builds" , (req, res) =>{
+        BuildTeamDao.find({} , (err, items) =>{
+            res.json(items);
+        })
+    })
+
+    app.get(`/build/:slug` , (req, res) =>{
+        BuildTeamDao.findOne({slug : req.params.slug} ,(err, item)=>{
+            res.json(item);
+        })
+    })
 }
