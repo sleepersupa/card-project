@@ -14,6 +14,7 @@ require("../server-controllers/user-controller")(router)
 require("../server-controllers/upload-controller")(router)
 require("../server-controllers/card-controller")(router)
 require("../server-controllers/build-team-controller")(router)
+require("../server-controllers/vote-controller")(router)
 app.get("*",(req, res, next) => {
     res.sendFile(__dirname + "/index.html");
 });
