@@ -13,7 +13,7 @@ module.exports =(app) => {
 
     app.get("/builds" ,async (req, res) =>{
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
+        console.log(ip);
         BuildTeamDao.find({} , async (err, items) =>{
             let counts= {};
             for(let item of items){
