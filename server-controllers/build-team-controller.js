@@ -1,6 +1,8 @@
 
 const BuildTeamDao = require('../dao/build-team-dao');
+const VoteDao = require('../dao/vote-dao');
 
+let ips = ['11111','22222','33333']
 
 module.exports =(app) => {
     app.post("/build-team" ,(req,res) =>{
@@ -9,9 +11,20 @@ module.exports =(app) => {
         })
     })
 
-    app.get("/builds" , (req, res) =>{
-        BuildTeamDao.find({} , (err, items) =>{
-            res.json(items);
+    app.get("/builds" ,async (req, res) =>{
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+        BuildTeamDao.find({} , async (err, items) =>{
+            let counts= {};
+            for(let item of items){
+                let finds = await VoteDao.find({build_id : item._id });
+                let up = finds.filter(f => f.status === 1).length ;
+                let down = finds.filter(f => f.status === 2).length ;
+                let voted = finds.find( f => f.ip === ip);
+                let status = voted ? voted.status : 0;
+                counts[item._id] = { value : up - down , status  } ;
+            }
+            res.json({builds : items , votes : counts});
         })
     })
 

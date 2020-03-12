@@ -2,16 +2,32 @@ import React from 'react';
 import {PaginationTable} from "../../component/pagination-table/pagination-table";
 import {buildTeamApi} from "../../../api/build-team/build-team-api";
 import {PageFormLayout} from "../standing-page/page-form-layout";
+import {UpVote} from "../../component/up-vote/up-vote";
+import {voteApi} from "../../../api/vote/vote-api";
 export class SubmitList  extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            builds : null
+            builds : null,
+            loading : false,
+            votes : null
         };
     }
 
+    voteModify(votes , item, status){
+        return {
+            ...votes,
+            [item._id] : {...votes[item._id] ,
+                status,
+                ...(status === 1 ? votes[item._id].status === 0 ? {value : votes[item._id].value++} : {value : votes[item._id].value+=2} :
+                    votes[item._id].status === 0 ? {value : votes[item._id].value--} : {value : votes[item._id].value-=2}
+                )
+            }
+        }
+    }
+
     render() {
-        const {builds} = this.state ;
+        const {builds , loading , votes } = this.state ;
 
         let columns = [
             {
@@ -45,10 +61,21 @@ export class SubmitList  extends React.Component {
                     <div
                         className='cell points'
                     >
-                        210
+                        <UpVote
+                            loading={loading}
+                            // verticalType
+                            vote={votes[item._id]}
+                            onChange={(status)=> {
+                                if(status === votes[item._id].status ) return ;
+                                this.setState({loading :true});
+                                voteApi.vote(item._id , status).then(({status})=>{
+                                    this.setState({loading : false , votes : this.voteModify(votes, item , status) })
+                                })
+                            }}
+                        />
                     </div>
                 ,
-                classNames: 'right'
+                classNames: 'mid'
             },
         ]
 
@@ -63,8 +90,8 @@ export class SubmitList  extends React.Component {
                             columns={columns}
                             list={builds}
                             api={()=>{
-                               return buildTeamApi.getBuilds().then(data => {
-                                    this.setState({ builds : data })
+                               return buildTeamApi.getBuilds().then(({builds , votes}) => {
+                                    this.setState({builds, votes})
                                     return Promise.resolve();
                                 })
                             }}

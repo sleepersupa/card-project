@@ -12,9 +12,9 @@ export class GamesSelect extends React.Component {
     render() {
 
         let games = [
-            {name : "Game 1" , image : "/assets/img/game1.png" , main_path : "/g/game-1/submit-team" },
-            {name : "Game 1" , image : "/assets/img/game2.png" , main_path : "/g/game-2/submit-team" },
-            {name : "Game 1" , image : "/assets/img/game3.png" , main_path : "/g/game-3/submit-team" },
+            {name : "Game 1" , image : "/assets/img/game1.png" , main_path : "/g/game-1/submit-list" },
+            {name : "Game 1" , image : "/assets/img/game2.png" , main_path : "/g/game-2/submit-list" },
+            {name : "Game 1" , image : "/assets/img/game3.png" , main_path : "/g/game-3/submit-list" },
         ]
         return(
             <div className='games-select flex-row'>
