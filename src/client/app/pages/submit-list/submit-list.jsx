@@ -4,6 +4,7 @@ import {buildTeamApi} from "../../../api/build-team/build-team-api";
 import {PageFormLayout} from "../standing-page/page-form-layout";
 import {UpVote} from "../../component/up-vote/up-vote";
 import {voteApi} from "../../../api/vote/vote-api";
+import {getParams} from "../card-commonds";
 export class SubmitList  extends React.Component {
     constructor(props) {
         super(props);
@@ -14,21 +15,19 @@ export class SubmitList  extends React.Component {
         };
     }
 
-    voteModify(votes , item, status){
+    voteModify(votes , item, status , value ){
         return {
             ...votes,
             [item._id] : {...votes[item._id] ,
                 status,
-                ...(status === 1 ? votes[item._id].status === 0 ? {value : votes[item._id].value++} : {value : votes[item._id].value+=2} :
-                    votes[item._id].status === 0 ? {value : votes[item._id].value--} : {value : votes[item._id].value-=2}
-                )
+                value : value
             }
         }
     }
 
     render() {
         const {builds , loading , votes } = this.state ;
-
+        let {game} = getParams(this.props);
         let columns = [
             {
                 label: 'Build Name',
@@ -49,7 +48,7 @@ export class SubmitList  extends React.Component {
                         className='cell flex-row'
                     >
                         {item.heroes.length > 0 && item.heroes.map((hero,index)=>(
-                            <img height='40px' className='hero-image' src={hero.filePath} alt=""/>
+                            <img key={index} height='40px' className='hero-image' src={hero.filePath} alt=""/>
                         ))}
                     </div>
                 ,
@@ -68,8 +67,8 @@ export class SubmitList  extends React.Component {
                             onChange={(status)=> {
                                 if(status === votes[item._id].status ) return ;
                                 this.setState({loading :true});
-                                voteApi.vote(item._id , status).then(({status})=>{
-                                    this.setState({loading : false , votes : this.voteModify(votes, item , status) })
+                                voteApi.vote(item._id , status).then(({status ,value})=>{
+                                    this.setState({loading : false , votes : this.voteModify(votes, item , status , value) })
                                 })
                             }}
                         />
@@ -90,7 +89,7 @@ export class SubmitList  extends React.Component {
                             columns={columns}
                             list={builds}
                             api={()=>{
-                               return buildTeamApi.getBuilds().then(({builds , votes}) => {
+                               return buildTeamApi.getBuilds(game).then(({builds , votes}) => {
                                     this.setState({builds, votes})
                                     return Promise.resolve();
                                 })

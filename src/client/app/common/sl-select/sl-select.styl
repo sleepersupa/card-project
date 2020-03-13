@@ -1,0 +1,41 @@
+.select-sl{
+  position relative;
+  .form-control-sl{
+    position relative;
+    .fa-times{
+      position absolute
+      top 50%;
+      right 30px
+      cursor pointer
+      transform translate(0 ,-50%)
+    }
+    .fa-sort-down{
+      position absolute
+      top 50%;
+      right 10px
+      transform translate(0 ,-50%)
+      cursor pointer
+    }
+  }
+
+  .dropdown-content{
+    width 100%;
+    max-height 350px;
+    position absolute;
+    overflow auto;
+    top : calc(100% + 16px);
+    border-radius 3px;
+    background white;
+    z-index 100;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    .item{
+      padding: 10px 20px;
+      &:hover{
+        background #28cc1a;
+        div , span{
+          color white ;
+        }
+      }
+    }
+  }
+}

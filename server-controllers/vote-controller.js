@@ -12,7 +12,12 @@ module.exports= (app)=>{
         console.log(ip);
         let target = { ip : ip , build_id : req.params.id  };
         VoteDao.findOneAndUpdate(target, {...target, status : req.params.status} , {upsert : true, new : true } ,(err, updated)=>{
-            return res.json(updated);
+            VoteDao.find(target ,(err, rs) =>{
+                let up =  rs.filter( r => r.status === 1).length;
+                let down =  rs.filter( r => r.status === 2).length;
+                let value = up - down ;
+                return res.json({...updated._doc , value });
+            })
         })
     })
 }

@@ -10,19 +10,13 @@ export class GamesSelect extends React.Component {
 
 
     render() {
-
-        let games = [
-            {name : "Game 1" , image : "/assets/img/game1.png" , main_path : "/g/game-1/submit-list" },
-            {name : "Game 1" , image : "/assets/img/game2.png" , main_path : "/g/game-2/submit-list" },
-            {name : "Game 1" , image : "/assets/img/game3.png" , main_path : "/g/game-3/submit-list" },
-        ]
+        const {games} = this.props;
         return(
             <div className='games-select flex-row'>
                 {games.map((g,i) => (
                     <div
                         onClick={()=> {
-                            console.log('lol')
-                            this.props.history.push(g.main_path)
+                            this.props.history.push(`/g/${g.slug}/submit-list`)
                         }}
                         key={i} className='game wrapper'>
                         <img className='game-image' src={g.image} alt=""/>

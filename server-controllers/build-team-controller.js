@@ -11,13 +11,13 @@ module.exports =(app) => {
         })
     })
 
-    app.get("/builds" ,async (req, res) =>{
+    app.get("/:game/builds" ,async (req, res) =>{
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         console.log(ip);
-        BuildTeamDao.find({} , async (err, items) =>{
+        BuildTeamDao.find({game : req.params.game} , async (err, items) =>{
             let counts= {};
             for(let item of items){
-                let finds = await VoteDao.find({build_id : item._id });
+                let finds = await VoteDao.find({build_id : item._id});
                 let up = finds.filter(f => f.status === 1).length ;
                 let down = finds.filter(f => f.status === 2).length ;
                 let voted = finds.find( f => f.ip === ip);
@@ -28,7 +28,7 @@ module.exports =(app) => {
         })
     })
 
-    app.get(`/build/:slug` , (req, res) =>{
+    app.get(`/:game/build/:slug` , (req, res) =>{
         BuildTeamDao.findOne({slug : req.params.slug} ,(err, item)=>{
             res.json(item);
         })

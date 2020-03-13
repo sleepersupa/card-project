@@ -39,7 +39,7 @@ export class UploadImage extends React.Component{
 
     render(){
         const { classNames, filePath , multiple, error , onChange } =this.props;
-        console.log(filePath)
+
         return(
             <div className={classnames('upload-image',...classNames)}>
                 <input

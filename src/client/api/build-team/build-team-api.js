@@ -2,7 +2,7 @@ import {api} from "../api";
 
 
 export const buildTeamApi ={
-    submit : (data) => api.post("/api/build-team", data),
-    getBuilds : () => api.get("/api/builds"),
-    getBuild : (slug) => api.get(`/api/build/${slug}`)
+    submit : (data) => api.post(`/api/build-team`, data),
+    getBuilds : (game) => api.get(`/api/${game}/builds`),
+    getBuild : (game,slug) => api.get(`/api/${game}/build/${slug}`)
 }

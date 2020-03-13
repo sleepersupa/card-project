@@ -27,7 +27,7 @@ export class Modal extends React.Component {
 
         return (
             <div className={className}>
-                <div className="app-modal">
+                <div className="app-modal-box">
                     <div
                         className="app-modal-overlay"
                         onMouseDown={(e) => e.target == this.overlayElem && !cantKickOut && onDismiss()}

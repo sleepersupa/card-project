@@ -1,6 +1,7 @@
 
 
 const CardDao = require('../dao/card-dao');
+const GameDao = require('../dao/game-dao');
 
 
 module.exports =(app) =>{
@@ -19,6 +20,18 @@ module.exports =(app) =>{
             let cards =  await CardDao.find({}) ;
 
             return res.send({error :false , cards : cards.reverse() })
+        }catch(e){
+            return res.send({error : true , message : 'Failed !'})
+        }
+    })
+
+    app.get('/:game/cards', async (req, res) =>{
+        try{
+            GameDao.findOne({slug : req.params.game} , async (err, game)=>{
+                let cards =  await CardDao.find({game : game._id}) ;
+                return res.send({error :false , cards : cards.reverse() })
+            })
+
         }catch(e){
             return res.send({error : true , message : 'Failed !'})
         }

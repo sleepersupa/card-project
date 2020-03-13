@@ -24,6 +24,7 @@ export class Form extends React.Component {
 
             return false;
         };
+        console.log(invalidPaths)
 
         return (
             <form
@@ -32,6 +33,7 @@ export class Form extends React.Component {
                     e.preventDefault();
                     e.stopPropagation();
                     this.setState({showError: true});
+                    console.log('hahah')
                     invalidPaths.length == 0 && onSubmit && onSubmit();
                 }}>
                 {render(getInvalidByKey, invalidPaths)}

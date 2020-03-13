@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {Input} from "../../../common/input/input";
 import {UploadImage} from "../../../component/upload-image/upload-image";
 import {Form} from "../../../common/form/form";
 import {minLength, required} from "../../../common/form/validations";
 import {cardApi} from "../../../../api/card/card-api";
+import {SlSelect} from "../../../common/sl-select/sl-select";
 
 export class CardFormModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            card: !props.card ? {} : props.card
+            card: !props.card ? {} : props.card ,
+            selectedGame : !props.card ? null : props.games.find( g => g._id === props.card.game) ,
         };
     }
 
@@ -31,13 +33,14 @@ export class CardFormModal extends React.Component {
 
     render() {
 
-        const {editType, onSubmit} = this.props;
-        const {card} = this.state;
-
+        const {editType, onSubmit , games} = this.props;
+        const {card, selectedGame} = this.state;
+        console.log(this.state)
         let validations = [
             {"card_name": [required("Card Name"), minLength(3, "Card Name")]},
             {"type": [required("Type"), minLength(3, "Type")]},
             {"filePath": [required("Image")]},
+            {"game": [required("Game")]},
         ]
 
         return (
@@ -67,6 +70,21 @@ export class CardFormModal extends React.Component {
                                     onChange={(e) => this.setState({card: {...card, type: e.target.value}})}
                                     type="type"
                                     error={getInvalidByKey("type")}
+                                />
+
+                                <SlSelect
+                                    label="Game"
+                                    display={(item)=> !item ? "Please select a game": (
+                                        <div className='flex-row'>
+                                            <img style={{height : 22 , borderRadius : 3}} src={item.image} alt=""/>
+                                            <span style={{paddingLeft : 10}}>{item.name}</span>
+                                        </div>
+                                    )}
+                                    value={selectedGame}
+                                    onChange={(value) => this.setState({selectedGame :value, card: {...card, game:  value? value._id : null }})}
+                                    list={games}
+                                    error={getInvalidByKey("game")}
+                                    maxHeight={200}
                                 />
 
                                 <div className="form-group">

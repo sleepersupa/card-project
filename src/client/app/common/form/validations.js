@@ -21,6 +21,11 @@ export const isNumber = (path) => (val) => {
     }
 };
 
+export const isSlug =(path) => (val) => ({
+    text: `${path} phải ở dạng slug`,
+    valid : /^[A-Za-z0-9-_.]+$/.test(val)
+})
+
 export const minVal = (path, minVal) => (val) => {
     return {
         text: `${path} phải lớn hơn hoặc bằng ${minVal}`,

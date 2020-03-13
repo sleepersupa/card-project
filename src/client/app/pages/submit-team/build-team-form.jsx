@@ -1,10 +1,12 @@
 import React, {Fragment} from 'react';
-import {HeroSelect} from "./hero-select";
-import {Input} from "../../common/input/input";
-import {Editor} from "../../common/editor/editor";
 import {Form} from "../../common/form/form";
 import {minLength, required} from "../../common/form/validations";
 import {buildTeamApi} from "../../../api/build-team/build-team-api";
+import {getParams} from "../card-commonds";
+import {HeroSelect} from "./hero-select";
+import {Input} from "../../common/input/input";
+import {Editor} from "../../common/editor/editor";
+
 export class BuildTeamForm extends React.Component {
     constructor(props) {
         super(props);
@@ -13,9 +15,6 @@ export class BuildTeamForm extends React.Component {
         };
     }
 
-    onSubmit(){
-        buildTeamApi.submit(this.state.build).then(()=>{})
-    }
 
     render() {
 
@@ -25,13 +24,17 @@ export class BuildTeamForm extends React.Component {
             {"name": [required("Build Name"), minLength(3, "Build Name")]},
             {"created_by": [required("Creator Name"), minLength(3, "Creator Name")]},
             {"heroes": [minLength(4, "Build Heroes")]},
-        ]
+        ];
+
+        let {game} = getParams(this.props);
         console.log(build)
         return(
             <Form
                 validations={validations}
                 formValue={build}
-                onSubmit={() => this.onSubmit()}
+                onSubmit={() => {
+                    buildTeamApi.submit({...build, game}).then(()=>{})
+                }}
                 render={(getInvalidByKey)=>(
                     <Fragment>
                         <div className="step row no-margin">
@@ -77,7 +80,9 @@ export class BuildTeamForm extends React.Component {
                             <Editor
                                 minHeight={400}
                                 value={build.description}
-                                onChange={(e) => this.setState({build: {...build, description: e.target.value}})}
+                                onChange={(value) => {
+                                    this.setState({build: {...build, description: value }})
+                                }}
                                 error={getInvalidByKey("description")}
                             />
 
