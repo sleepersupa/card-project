@@ -6,7 +6,34 @@
   .title-sl{
     text-transform:capitalize
   }
-  .content{
-    margin 30px 10px 10px 10px;
+  .heroes{
+    img{
+      border-radius 5px;
+    }
   }
+  .row{
+    &.description-wrap{
+      margin-top 50px !important;
+      p {
+        margin: 0 0 20px !important
+        line-height: 26px !important;
+      }
+      img{
+        width 100%;
+      }
+      @media (max-width 480px){
+        img{
+          max-width 100% ;
+        }
+        padding 0 5px;
+      }
+    }
+    .des-preview{
+      margin-top 50px;
+      .blog-content{
+        width 100% !important;
+      }
+    }
+  }
+
 }

@@ -27,20 +27,31 @@ export class BuildDisplay extends React.Component {
                         <div className='title-sl text-left'>{build.name}</div>
                         <div className="hint-label-sl">Shared by: {build.created_by || "Admin"}</div>
 
-                        <div className="flex-row justify-center">
+                        <div className="heroes flex-row justify-center">
                             {build.heroes.map((hero, index)=>(
                                 <img key={index} height='60px' style={{marginRight : 5}} src={hero.filePath} alt=""/>
                             ))}
                         </div>
 
-                        <div className="content">
-                            <div className="label-sl">Description</div>
-                            <div
-                                dangerouslySetInnerHTML={{__html :  build.description}}
-                                className="description">
 
-                            </div>
+                        <div
+                            className="row description-wrap no-margin">
+                            <div className="label-sl">Description</div>
+
+                            <div
+                                className='col des-preview no-padding'
+                                dangerouslySetInnerHTML={{__html: build.description}}
+                            />
                         </div>
+
+                        {/*<div className="content">*/}
+                        {/*    <div className="label-sl">Description</div>*/}
+                        {/*    <div*/}
+                        {/*        dangerouslySetInnerHTML={{__html :  build.description}}*/}
+                        {/*        className="description">*/}
+
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                 )}
             </PageFormLayout>
