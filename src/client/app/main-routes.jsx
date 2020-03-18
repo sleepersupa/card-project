@@ -15,6 +15,8 @@ import {SubmitTeam} from "./pages/submit-team/submit-team";
 import {SubmitList} from "./pages/submit-list/submit-list";
 import {BuildDisplay} from "./pages/build-display/build-display";
 import {AppLayout} from "./app-layout";
+import {getParams} from "./pages/card-commonds";
+import {HeroDisplay} from "./pages/hero-display/hero-display";
 
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
@@ -69,7 +71,6 @@ export class MainRoutes extends BaseComponent {
         let GameComp = () => (<div>Game 1</div>)
         let guessRoutes = [
             {path: "/", component: StandingPage},
-
         ]
 
 
@@ -77,6 +78,13 @@ export class MainRoutes extends BaseComponent {
             {path: "/manage-cards", component: ManageCards},
             {path: "/manage-games", component: ManageGames},
             {path: "/settings", component: Settings},
+        ]
+
+        let gameRoutes = [
+            {path :'/g/:game/submit-team' , component : SubmitTeam },
+            {path :'/g/:game/submit-list' , component : SubmitList },
+            {path :'/g/:game/build/:slug' , component : BuildDisplay },
+            {path :'/g/:game/hero/:slug' , component : HeroDisplay },
         ]
 
         return (
@@ -98,30 +106,15 @@ export class MainRoutes extends BaseComponent {
                                         <DefaultLayout {...props}>
                                             {(layoutProps) => (
                                                 <Fragment>
-                                                    <Route
-                                                        exact
-                                                        path='/g/:game/submit-team'
-                                                        render={(props) => <SubmitTeam {...props} {...layoutProps}/>}
-                                                    />
-
-                                                    <Route
-                                                        exact
-                                                        path='/g/:game/submit-list'
-                                                        render={(props) => <SubmitList {...props} {...layoutProps}/>}
-                                                    />
-
-                                                    <Route
-                                                        exact
-                                                        path='/g/:game/build/:slug'
-                                                        render={(props) => <BuildDisplay {...props} {...layoutProps}/>}
-                                                    />
-
-
-                                                    <Route
-                                                        exact
-                                                        path='/g/:game/manage-cards'
-                                                        render={(props) => <ManageCards {...props} {...layoutProps}/>}
-                                                    />
+                                                    {gameRoutes.map((route , index) => (
+                                                        <GameRoute
+                                                            exact
+                                                            key={route.path}
+                                                            path={route.path}
+                                                            Wrapper={route.component}
+                                                            {...layoutProps}
+                                                        />
+                                                    ))}
                                                 </Fragment>
 
                                             )}
@@ -142,24 +135,22 @@ export class MainRoutes extends BaseComponent {
     }
 }
 
-class GameLayout extends React.Component {
+class GameRoute extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
 
     render() {
+        let {game} = getParams(this.props);
+        const {Wrapper , path} = this.props;
+
         return (
-            <DefaultLayout>
-                {(layoutProps) => (
-                    <Route
-                        path='/g/:game/manage-cards'
-                        render={(props) => <ManageCards/>}
-                    />
-                )}
-
-            </DefaultLayout>
-
+            <Route
+                exact
+                path={path}
+                render={(props) => <Wrapper {...props} {...{game}}/>}
+            />
         )
     }
 }

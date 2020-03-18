@@ -82,7 +82,7 @@ export class SubmitList  extends React.Component {
             <PageFormLayout>
                 {({cards})=>(
                     <div className='submit-list'>
-                        <div className='title-sl text-center'>Submit List</div>
+                        <div className='title-sl text-center'>SUBMIT LIST</div>
 
                         <PaginationTable
                             ref={elem => this.table = elem}

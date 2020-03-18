@@ -16,7 +16,7 @@ export class DefaultLayout extends React.Component {
                 <NavBar
                     {...this.props}
                 />
-                {children && children({})}
+                {children && children({...this.props})}
             </div>
         )
     }

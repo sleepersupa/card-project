@@ -24,7 +24,7 @@ module.exports =(app) => {
                 let status = voted ? voted.status : 0;
                 counts[item._id] = { value : up - down , status  } ;
             }
-            res.json({builds : items , votes : counts});
+            res.json({builds : items.reverse() , votes : counts});
         })
     })
 

@@ -1,0 +1,37 @@
+.hero-display{
+  padding 10px;
+  border: 1px solid #c1c1c1;
+  background white;
+  border-radius 2px;
+  .title-sl{
+    text-transform uppercase;
+  }
+  .hero-image{
+    width 100px;
+    height 100px;
+    margin 10px 0 ;
+    border-radius 3px;
+  }
+  .vote-area{
+    display flex;
+    .pvp , .pve{
+      align-items center;
+      flex 50% 0;
+      padding 10px;
+      display flex;
+      .tit{
+        font-size 30px;
+        font-weight 600;
+        padding 10px;
+      }
+    }
+
+    .pve{
+      justify-content flex-end;
+    }
+    .pvp{
+      flex-direction: row-reverse !important;
+      justify-content flex-end;
+    }
+  }
+}

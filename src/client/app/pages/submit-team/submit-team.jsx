@@ -10,7 +10,7 @@ export class SubmitTeam extends React.Component {
             hero : null
         };
         let {game} = getParams(this.props);
-        cardApi.getOfGame(game).then(({cards}) => this.setState({cards}))    }
+        cardApi.getAllOfGame(game).then(({cards}) => this.setState({cards}))    }
 
     render() {
         const {hero , cards} =  this.state;

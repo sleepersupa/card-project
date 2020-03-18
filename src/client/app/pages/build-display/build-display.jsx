@@ -18,6 +18,8 @@ export class BuildDisplay extends React.Component {
 
     render() {
         const {build } =this.state;
+        const {game} = this.props ;
+
         return(
             <PageFormLayout
                 // className='build-display'
@@ -29,7 +31,11 @@ export class BuildDisplay extends React.Component {
 
                         <div className="heroes flex-row justify-center">
                             {build.heroes.map((hero, index)=>(
-                                <img key={index} height='60px' style={{marginRight : 5}} src={hero.filePath} alt=""/>
+                                <img
+                                    onClick={()=>{
+                                        this.props.history.push(`/g/${game}/hero/${hero.slug}`)
+                                    }}
+                                    key={index} height='60px' style={{marginRight : 5}} src={hero.filePath} alt=""/>
                             ))}
                         </div>
 
@@ -43,15 +49,6 @@ export class BuildDisplay extends React.Component {
                                 dangerouslySetInnerHTML={{__html: build.description}}
                             />
                         </div>
-
-                        {/*<div className="content">*/}
-                        {/*    <div className="label-sl">Description</div>*/}
-                        {/*    <div*/}
-                        {/*        dangerouslySetInnerHTML={{__html :  build.description}}*/}
-                        {/*        className="description">*/}
-
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
                 )}
             </PageFormLayout>
