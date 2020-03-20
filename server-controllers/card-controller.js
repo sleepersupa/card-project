@@ -1,6 +1,8 @@
 const CardDao = require('../dao/card-dao');
 const GameDao = require('../dao/game-dao');
-
+const PVEDao  = require("../dao/pve-dao");
+const PVPDao  = require("../dao/pvp-dao");
+const BuildTeamDao = require("../dao/build-team-dao");
 
 module.exports = (app) => {
     app.post('/manage-cards', async (req, res) => {
@@ -75,4 +77,28 @@ module.exports = (app) => {
             return res.send({error: true, message: 'Failed !'})
         }
     })
+
+    app.get("/:game/card/overview/:slug" , async (req, res)=>{
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        var hero = await CardDao.findOne({slug : req.params.slug});
+        let getVotes = (dbType) => new Promise(async (res,rej) =>{
+            let finds = await dbType.find({hero_id : hero._id});
+            let up = finds.filter(f => f.status === 1).length ;
+            let down = finds.filter(f => f.status === 2).length ;
+            let voted = finds.find( f => f.ip === ip);
+            let status = voted ? voted.status : 0;
+            res({value : up-down, status})
+        })
+        // let getOverview = () => new Promise((res,rej) =>{
+        //     BuildTeamDao.find({ game : req.params.game , "heroes.slug" : req.params.slug } , {"heroes.description" : 0 }, async (err, items) =>{
+        //         res(items);
+        //     })
+        // })
+
+        // let builds = await getOverview();
+        let pve_votes = await getVotes(PVEDao);
+        let pvp_votes = await getVotes(PVPDao);
+        return res.json({pve_votes, pvp_votes})
+    })
+
 }

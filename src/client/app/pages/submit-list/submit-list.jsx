@@ -5,6 +5,16 @@ import {PageFormLayout} from "../standing-page/page-form-layout";
 import {UpVote} from "../../component/up-vote/up-vote";
 import {voteApi} from "../../../api/vote/vote-api";
 import {getParams} from "../card-commonds";
+
+export const voteModify = (votes , item, status , value ) => {
+    return {
+        ...votes,
+        [item._id] : {...votes[item._id] ,
+            status,
+            value : value
+        }
+    }
+}
 export class SubmitList  extends React.Component {
     constructor(props) {
         super(props);
@@ -15,15 +25,7 @@ export class SubmitList  extends React.Component {
         };
     }
 
-    voteModify(votes , item, status , value ){
-        return {
-            ...votes,
-            [item._id] : {...votes[item._id] ,
-                status,
-                value : value
-            }
-        }
-    }
+
 
     render() {
         const {builds , loading , votes } = this.state ;
@@ -34,7 +36,7 @@ export class SubmitList  extends React.Component {
                 renderCell: (item) =>
                     <div
                         className='cell'
-                        onClick={()=> this.props.history.push(`/g/game-1/build/${item.slug}`)}
+                        onClick={()=> this.props.history.push(`/g/${game}/build/${item.slug}`)}
                     >
                         {item.name}
                     </div>
@@ -68,7 +70,7 @@ export class SubmitList  extends React.Component {
                                 if(status === votes[item._id].status ) return ;
                                 this.setState({loading :true});
                                 voteApi.vote(item._id , status).then(({status ,value})=>{
-                                    this.setState({loading : false , votes : this.voteModify(votes, item , status , value) })
+                                    this.setState({loading : false , votes : voteModify(votes, item , status , value) })
                                 })
                             }}
                         />

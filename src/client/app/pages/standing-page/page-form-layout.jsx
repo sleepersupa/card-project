@@ -18,17 +18,17 @@ export class PageFormLayout extends React.Component {
         const {children, className}  = this.props;
         return(
             <div className={classnames('page-form-layout', className )}>
-                <div className="left-side row">
-                    <div className="col-md-3 col-sm-12">
+                <div className="row no-margin">
+                    <div className="left-side col col-md-3 col-sm-12 no-padding">
                         <BestList
                             label="Best PvP Heroes"
                             list={cards}
                         />
                     </div>
-                    <div className="mid-side col-md-6 col-sm-12">
+                    <div className="mid-side col col-md-6 col-sm-12">
                         { children && children({cards})}
                     </div>
-                    <div className="right-side col-md-3 col-sm-12">
+                    <div className="right-side col col-md-3 col-sm-12 no-padding">
                         <BestList
                             label="Best PvP Heroes"
                             list={cards}

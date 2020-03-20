@@ -8,5 +8,6 @@ export const cardApi = {
     getAll : () => api.get('/api/cards'),
     getAllOfGame : (game) => api.get(`/api/${game}/cards`),
     getCardOfGame : (game , slug) => api.get(`/api/${game}/card/${slug}`),
-    deleteCard : (id) => api.delete(`/api/card/${id}`)
+    deleteCard : (id) => api.delete(`/api/card/${id}`),
+    getOverview : ( game,slug) => api.get(`/api/${game}/card/overview/${slug}`)
 }
