@@ -1,11 +1,13 @@
 import React, {Fragment} from 'react';
 import {Form} from "../../common/form/form";
-import {minLength, required} from "../../common/form/validations";
+import {maxLength, minLength, required} from "../../common/form/validations";
 import {buildTeamApi} from "../../../api/build-team/build-team-api";
 import {getParams} from "../card-commonds";
 import {HeroSelect} from "./hero-select";
 import {Input} from "../../common/input/input";
 import {Editor} from "../../common/editor/editor";
+import {LoadingInline} from "../../common/loading/loading-2";
+import {Checkbox} from "../../common/checkbox/checkbox";
 
 export class BuildTeamForm extends React.Component {
     constructor(props) {
@@ -19,21 +21,26 @@ export class BuildTeamForm extends React.Component {
     render() {
 
         const {build} = this.state;
-        const {cards} = this.props;
+
+        const {cards, config, history} = this.props;
+        if(!config) return <LoadingInline/>;
+
         let validations =[
             {"name": [required("Build Name"), minLength(3, "Build Name")]},
             {"created_by": [required("Creator Name"), minLength(3, "Creator Name")]},
-            {"heroes": [minLength(4, "Build Heroes")]},
+            {"heroes": [minLength(config.min_heroes || 1, "Build Heroes") , maxLength(config.max_heroes, "Build Heroes" )]},
         ];
 
         let {game} = getParams(this.props);
-        console.log(build)
+
         return(
             <Form
                 validations={validations}
                 formValue={build}
                 onSubmit={() => {
-                    buildTeamApi.submit({...build, game}).then(()=>{})
+                    buildTeamApi.submit({...build, game}).then((data)=>{
+                        history.push(`/g/${game}/build/${data.slug}`)
+                    })
                 }}
                 render={(getInvalidByKey)=>(
                     <Fragment>
@@ -44,9 +51,16 @@ export class BuildTeamForm extends React.Component {
 
                             <HeroSelect
                                 heroes={cards}
-                                onSelect={(hero)=> {
-                                    this.setState({build: {...build, heroes : [...build.heroes , hero]}})
-                                } }
+                                display={(hero)=> (
+                                    <img
+                                        onClick={()=> {
+                                            if(build.heroes.length < config.max_heroes && !build.heroes.find(f => f._id === hero._id)){
+                                                this.setState({build: {...build, heroes : [...build.heroes , hero]}})
+                                            }
+                                        }}
+                                        className='hero-image' src={hero.filePath} alt=""
+                                    />
+                                ) }
                             />
                         </div>
 
@@ -55,8 +69,15 @@ export class BuildTeamForm extends React.Component {
                             <div className="hint-label-sl">What is the name of your team?</div>
                             <HeroSelect
                                 heroes={build.heroes}
+                                display={(hero)=> (
+                                    <img
+                                        onClick={()=> {
+                                            this.setState({ build: {...build, heroes : build.heroes.filter(h => h._id !== hero._id )}})
+                                        }}
+                                        className='hero-image' src={hero.filePath} alt=""
+                                    />
+                                ) }
                                 error={getInvalidByKey("heroes")}
-                                onSelect={(hero)=> this.setState({ build: {...build, heroes : build.heroes.filter(h => h._id !== hero._id )}})}
                             />
                             <Input
                                 value={build.name}
@@ -73,6 +94,23 @@ export class BuildTeamForm extends React.Component {
                                 type="created_by"
                                 error={getInvalidByKey("created_by")}
                             />
+                            <div className="form-group-sl">
+
+                                <div className="control-label-sl">
+                                    Categories
+                                </div>
+
+                                {config.tags.map((tag,index)=>(
+                                    <Checkbox
+                                        key={index}
+                                        value={build.tags.includes(tag)}
+                                        label={tag}
+                                        onChange={(value) => {
+                                            this.setState({ build: {...build, tags : !value ? build.tags.filter(t => t !== tag) : [...build.tags, tag]}})
+                                        }}
+                                    />
+                                ))}
+                            </div>
                         </div>
                         <div className="step row no-margin">
                             <div className="label-sl">3. TELL US MORE ABOUT YOUR BUILD!</div>

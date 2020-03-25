@@ -24,7 +24,6 @@ export class Form extends React.Component {
 
             return false;
         };
-        console.log(invalidPaths)
 
         return (
             <form

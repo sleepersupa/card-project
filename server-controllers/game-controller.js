@@ -25,4 +25,10 @@ module.exports = (app) =>{
             res.json(updated);
         })
     })
+
+    app.get('/game/by-slug/:slug' , (req,res) =>{
+        GameDao.findOne({slug : req.params.slug} ,(err, config) =>{
+            res.json(config)
+        })
+    })
 }

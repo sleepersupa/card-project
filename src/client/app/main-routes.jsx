@@ -17,6 +17,7 @@ import {BuildDisplay} from "./pages/build-display/build-display";
 import {AppLayout} from "./app-layout";
 import {getParams} from "./pages/card-commonds";
 import {HeroDisplay} from "./pages/hero-display/hero-display";
+import {gameApi} from "../api/game/game-api";
 
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
@@ -139,17 +140,22 @@ class GameRoute extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        let {game} = getParams(this.props);
+        gameApi.getGameBySlug(game).then((config) =>{
+            this.setState({ config : config})
+        })
     }
 
     render() {
         let {game} = getParams(this.props);
         const {Wrapper , path} = this.props;
+        const { config } = this.state ;
 
         return (
             <Route
                 exact
                 path={path}
-                render={(props) => <Wrapper {...props} {...{game}}/>}
+                render={(props) => <Wrapper {...props} {...{game, config}}/>}
             />
         )
     }

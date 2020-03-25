@@ -76,6 +76,17 @@ export class Settings extends React.Component {
                 classNames: 'mid'
             },
             {
+                label: 'Min Heroes',
+                renderCell: (item) =>
+                    <div
+                        className='cell'
+                    >
+                        {item.min_heroes}
+                    </div>
+                ,
+                classNames: 'right'
+            },
+            {
                 label: 'Max Heroes',
                 renderCell: (item) =>
                     <div

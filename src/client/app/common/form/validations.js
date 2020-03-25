@@ -8,6 +8,10 @@ export const minLength = (length, path) => (val) => ({
     valid: val ? val.length >= length : true
 });
 
+export const maxLength = (length, path) => (val) => ({
+    text: `${path} chỉ được nhiều nhất ${length} ${typeof val === 'string' ? "kí tự" : path}`,
+    valid: val ? val.length <= length : true
+});
 
 export let isSame = (anotherVal, path) => (val) => ({
     text: `${path} không trùng`,

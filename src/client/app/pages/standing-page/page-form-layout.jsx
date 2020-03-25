@@ -1,7 +1,7 @@
 import React from "react";
-import {cardApi} from "../../../api/card/card-api";
 import classnames from "classnames";
 import {BestList} from "./best-list/best-list";
+import {voteApi} from "../../../api/vote/vote-api";
 
 export class PageFormLayout extends React.Component {
     constructor(props) {
@@ -9,13 +9,13 @@ export class PageFormLayout extends React.Component {
         this.state = {
             cards : null
         };
-        cardApi.getAll().then(({cards}) => this.setState({cards}))
+        voteApi.voteManifest(props.game).then(({cards}) => this.setState({cards}))
 
     }
 
     render() {
         const {cards}  = this.state;
-        const {children, className}  = this.props;
+        const {children, className, history, game}  = this.props;
         return(
             <div className={classnames('page-form-layout', className )}>
                 <div className="row no-margin">
@@ -23,6 +23,7 @@ export class PageFormLayout extends React.Component {
                         <BestList
                             label="Best PvP Heroes"
                             list={cards}
+                            onClick={(card) => history.push(`/g/${game}/hero/${card.slug}`)}
                         />
                     </div>
                     <div className="mid-side col col-md-6 col-sm-12">

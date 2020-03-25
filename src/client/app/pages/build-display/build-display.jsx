@@ -4,6 +4,7 @@ import {buildTeamApi} from "../../../api/build-team/build-team-api";
 import {LoadingInline} from "../../common/loading/loading-2";
 import {getParams} from "../card-commonds";
 import {Editor} from "../../common/editor/editor";
+import {TagPreview} from "./tag-preview/tag-preview";
 export class BuildDisplay extends React.Component {
     constructor(props) {
         super(props);
@@ -18,11 +19,11 @@ export class BuildDisplay extends React.Component {
 
     render() {
         const {build } =this.state;
-        const {game} = this.props ;
-
+        const {game, history} = this.props ;
         return(
             <PageFormLayout
                 // className='build-display'
+                {...this.props}
             >
                 {({cards})=> !build ? <LoadingInline/> :(
                     <div className='build-display'>
@@ -49,6 +50,16 @@ export class BuildDisplay extends React.Component {
                                 dangerouslySetInnerHTML={{__html: build.description}}
                             />
                         </div>
+
+                        <div className="categories">
+                            <div className="label-sl">Categories</div>
+
+                            <TagPreview
+                                tags={build.tags}
+                                onClick={(tag)=> history.push(`/g/${game}/submit-list?tag=${encodeURIComponent(tag)}`)}
+                            />
+                        </div>
+
                     </div>
                 )}
             </PageFormLayout>

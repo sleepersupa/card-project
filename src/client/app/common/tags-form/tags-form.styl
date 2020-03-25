@@ -1,0 +1,42 @@
+.enter-tags{
+  display flex ;
+  flex-wrap wrap;
+  width 100%;
+  font-size: 14px;
+  padding: 10px 15px;
+  outline: none;
+  border-radius: 2px;
+  border: solid 1px #d1d7e2;
+  transition 0.2s ease all;
+  .tag{
+    position relative;
+    padding 5px ;
+    border-radius 20px;
+    border 1px solid #5d78ff;
+    margin-right 5px;
+    align-self: center;
+    margin-bottom 5px;
+    .fa-trash{
+      position absolute;
+      display none;
+      right -7px;
+      top -5px ;
+      cursor pointer;
+      color red ;
+    }
+    &:hover{
+      .fa-trash{
+        display block;
+      }
+    }
+  }
+  //input{
+  //  min-width 200px;
+  //}
+
+  .liti-input{
+    flex 1 ;
+    min-width 150px;
+    margin-bottom 5px !important;
+  }
+}

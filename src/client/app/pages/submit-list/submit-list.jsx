@@ -4,7 +4,8 @@ import {buildTeamApi} from "../../../api/build-team/build-team-api";
 import {PageFormLayout} from "../standing-page/page-form-layout";
 import {UpVote} from "../../component/up-vote/up-vote";
 import {voteApi} from "../../../api/vote/vote-api";
-import {getParams} from "../card-commonds";
+import {getParams, getQueryByName} from "../card-commonds";
+import {LoadingInline} from "../../common/loading/loading-2";
 
 export const voteModify = (votes , item, status , value ) => {
     return {
@@ -21,14 +22,20 @@ export class SubmitList  extends React.Component {
         this.state = {
             builds : null,
             loading : false,
-            votes : null
+            votes : null,
+            tag : getQueryByName('tag', props.location.search)
         };
     }
 
+    componentWillReceiveProps(newProps){
+        this.setState({tag : getQueryByName('tag', newProps.location.search)})
+    }
 
 
     render() {
-        const {builds , loading , votes } = this.state ;
+        let {builds , loading , votes,tag } = this.state ;
+        console.log(tag);
+        console.log(builds)
         let {game} = getParams(this.props);
         let columns = [
             {
@@ -50,7 +57,9 @@ export class SubmitList  extends React.Component {
                         className='cell flex-row'
                     >
                         {item.heroes.length > 0 && item.heroes.map((hero,index)=>(
-                            <img key={index} height='40px' className='hero-image' src={hero.filePath} alt=""/>
+                            <img
+                                onClick={()=> this.props.history.push(`/g/${game}/hero/${hero.slug}`)}
+                                key={index} height='40px' className='hero-image' src={hero.filePath} alt=""/>
                         ))}
                     </div>
                 ,
@@ -79,9 +88,11 @@ export class SubmitList  extends React.Component {
                 classNames: 'mid'
             },
         ]
-
+        if(tag && tag.length > 0 && builds)  builds = builds.filter(b => b.tags.includes(tag))
         return(
-            <PageFormLayout>
+            <PageFormLayout
+                {...this.props}
+            >
                 {({cards})=>(
                     <div className='submit-list'>
                         <div className='title-sl text-center'>SUBMIT LIST</div>

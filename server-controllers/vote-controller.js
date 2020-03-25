@@ -4,6 +4,8 @@
 const VoteDao =  require("../dao/vote-dao");
 const PVEDao = require("../dao/pve-dao");
 const PVPDao = require("../dao/pvp-dao");
+const GameDao = require("../dao/game-dao");
+const CardDao = require("../dao/card-dao");
 
 let ips = ['11111','22222','33333'];
 
@@ -44,5 +46,17 @@ module.exports= (app)=>{
     app.get("/pvp/:id/:status", async (req,res)=>{
         let ret =  await voteHero(req, PVPDao);
         return res.json(ret);
+    })
+
+    app.get("/:game/manifest" , async (req,res) =>{
+        try {
+            GameDao.findOne({slug: req.params.game}, async (err, game) => {
+                let cards = await CardDao.find({game: game._id});
+                return res.send({error: false, cards: cards.reverse()})
+            })
+
+        } catch (e) {
+            return res.send({error: true, message: 'Failed !'})
+        }
     })
 }

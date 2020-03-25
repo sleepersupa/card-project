@@ -14,14 +14,14 @@ export class SubmitTeam extends React.Component {
 
     render() {
         const {hero , cards} =  this.state;
-
         return (
             <PageFormLayout
                 className='submit-team'
+                {...this.props}
             >
                 {()=>(
                     <BuildTeamForm
-                        build={{name : '', heroes: [] }}
+                        build={{name : '', heroes: [], tags:[] }}
                         cards={cards}
                         {...this.props}
                     />

@@ -30,6 +30,23 @@ export class HeroDisplay extends React.Component {
         })
     }
 
+    componentWillReceiveProps(nextProps){
+        let {slug} = getParams(nextProps);
+        let {oldSlug} = getParams(this.props);
+        if(slug !== oldSlug){
+            cardApi.getCardOfGame(nextProps.game , slug).then(({card}) =>{
+                cardApi.getOverview(nextProps.game , slug).then(({pve_votes, pvp_votes }) =>{
+                    this.setState({
+                        hero : card,
+                        pve_votes,
+                        pvp_votes
+                    })
+                })
+            })
+        }
+
+    }
+
     render() {
         const {hero ,votes, loading, builds, pve_votes, pvp_votes} = this.state ;
 
@@ -88,6 +105,7 @@ export class HeroDisplay extends React.Component {
 
         return(
             <PageFormLayout
+                {...this.props}
             >
                 {({cards})=> !hero ? <LoadingInline/> :(
                     <div className='hero-display'>
@@ -143,7 +161,7 @@ export class HeroDisplay extends React.Component {
                             columns={columns}
                             list={builds}
                             api={()=>{
-                                return buildTeamApi.getBuilds(game).then(({builds , votes}) => {
+                                return buildTeamApi.getBuildsByHero(game, hero.slug).then(({builds , votes}) => {
                                     this.setState({builds, votes})
                                     return Promise.resolve();
                                 })

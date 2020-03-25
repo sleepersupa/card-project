@@ -14,7 +14,7 @@ export class Input extends React.Component {
     }
 
     render() {
-        let {className, value, onChange, placeholder, type, error, disabled, autoSelect, onKeyDown, onFocus, onBlur, label} = this.props;
+        let {className, value, onChange, placeholder, type ='text', error, disabled, autoSelect, onKeyDown, onFocus, onBlur, label} = this.props;
         let {focus} = this.state;
 
         return (

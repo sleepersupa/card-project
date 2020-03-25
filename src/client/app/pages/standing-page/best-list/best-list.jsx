@@ -8,7 +8,7 @@ export class BestList extends React.Component {
     }
 
     render() {
-        const {label , list} = this.props ;
+        const {label , list, onClick} = this.props ;
         if(!list ) return null ;
         return(
             <div className='best-list'>
@@ -19,7 +19,9 @@ export class BestList extends React.Component {
 
                 <div className='list-items'>
                     {list.map((item, index) =>(
-                        <div key={index} className='item'>
+                        <div
+                            onClick={()=> onClick && onClick(item)}
+                            key={index} className='item'>
                             <img className='item-image' src={item.filePath} alt=""/>
                             <div className="item-name">
                                 {item.card_name}

@@ -14,13 +14,11 @@ export class PaginationTable extends React.Component{
             this.setState({ loading :false })
         })
     }
-    // componentWillReceiveProps(nextProps){
-    //     if(nextProps.list && nextProps.list.length !=  this.props.list.length){
-    //         this.setState({
-    //             page : 1
-    //         })
-    //     }
-    // }
+    componentWillReceiveProps(nextProps){
+        this.props.api().then(()=>{
+            this.setState({ loading :false })
+        })
+    }
 
     refresh(){
         const {api} = this.props;

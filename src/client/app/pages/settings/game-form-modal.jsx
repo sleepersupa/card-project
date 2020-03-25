@@ -6,11 +6,13 @@ import {TextAreaForm} from "../../common/input-form/text-area-form/text-area-for
 import {Form} from "../../common/form/form";
 import {Editor} from "../../common/editor/editor";
 import {gameApi} from "../../../api/game/game-api";
+import {SwitchInline} from "../../common/switch-inline/switch-inline";
+import {TagsForm} from "../../common/tags-form/tags-form";
 export class GameFormModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            game: props.game ? props.game : {}
+            game: props.game ? props.game : {tags:[]}
         };
     }
 
@@ -36,6 +38,7 @@ export class GameFormModal extends React.Component {
 
         let validations = [
             {"name": [required("Name"), minLength(3, "Name")]},
+            {"min_heroes": [required("Min Heroes"), isNumber()]},
             {"max_heroes": [required("Max Heroes"), isNumber()]},
             {"image": [required("Image")]},
             {"slug": [required("Slug"), isSlug("Slug")]},
@@ -68,12 +71,31 @@ export class GameFormModal extends React.Component {
                                         />
 
                                         <Input
+                                            value={game.min_heroes}
+                                            onChange={(e) => this.setState({game: {...game, min_heroes: e.target.value}})}
+                                            label={"Min Heroes"}
+                                            type="min_heroes"
+                                            error={getInvalidByKey("min_heroes")}
+                                        />
+
+
+                                        <Input
                                             value={game.max_heroes}
                                             onChange={(e) => this.setState({game: {...game, max_heroes: e.target.value}})}
                                             label={"Max Heroes"}
                                             type="max_heroes"
                                             error={getInvalidByKey("max_heroes")}
                                         />
+
+                                        <div className="form-group-sl">
+                                            <div className="control-label-sl">Hero Unique</div>
+                                            <SwitchInline
+                                                onChange={(allow) => this.setState({ game : {...game, heroUnique : allow }})}
+                                                toggleValue={game.heroUnique}
+                                                toggleLabel={["Enabled","Disabled"]}
+                                            />
+                                        </div>
+
 
                                         <Input
                                             value={game.slug}
@@ -83,6 +105,11 @@ export class GameFormModal extends React.Component {
                                             error={getInvalidByKey("slug")}
                                         />
 
+                                        <TagsForm
+                                            tags={game.tags || []}
+                                            onEnter={(value) => value.length >0 && this.setState({ game : {...game, tags :[...(game.tags||[]) ,value.trim()] }})}
+                                            onRemove={(value) => this.setState({game : {...game, tags : game.tags.filter(t => t!== value )}})}
+                                        />
                                         <div className="form-group">
                                             <UploadImage
                                                 height={200}

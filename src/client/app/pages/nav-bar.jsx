@@ -20,7 +20,7 @@ export class NavBar extends React.Component {
     render() {
         let rex = /\/g\/w+/g;
         let {game} = this.state;
-        console.log(game)
+
         let navs = [
             {label : "Home" , link : "/" , condition :()=> !rex.test(this.props.location.path) },
             {label : "Hero List" , link : `/g/${game}/hero-list` , condition :()=> rex.test(this.props.location.path) },
