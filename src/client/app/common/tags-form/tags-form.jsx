@@ -10,11 +10,11 @@ export class TagsForm extends React.Component {
     }
 
     render() {
-        let {tags = [], onEnter, onRemove, readOnly} = this.props;
+        let {tags = [],label, onEnter, onRemove, readOnly} = this.props;
 
         return (
             <div className='enter-tags'>
-                {readOnly && <h3>Tags</h3>}
+                {readOnly && <h3>{label}</h3>}
                 {tags.length > 0 && tags.map((t, i) => (<span key={i} className='tag'>{t}
                     <i className="fa sort-icon remove-icon fa-trash" onClick={(e) => {
                         e.preventDefault();
@@ -25,7 +25,7 @@ export class TagsForm extends React.Component {
 
                 {!readOnly &&
                     <Input
-                        label="Tags"
+                        label={label}
                         value={this.state.value}
                         onChange={(e) => this.setState({value: e.target.value})}
                         onKeyDown={(e) => {

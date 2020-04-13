@@ -14,11 +14,11 @@ export class PaginationTable extends React.Component{
             this.setState({ loading :false })
         })
     }
-    componentWillReceiveProps(nextProps){
-        this.props.api().then(()=>{
-            this.setState({ loading :false })
-        })
-    }
+    // componentWillReceiveProps(nextProps){
+    //     this.props.api().then(()=>{
+    //         this.setState({ loading :false })
+    //     })
+    // }
 
     refresh(){
         const {api} = this.props;

@@ -9,6 +9,8 @@ module.exports= mongoose.model("GameDao",{
     min_heroes : {type : Number, default : 1},
     heroUnique : {type : Boolean , default : false },
     tags : {type :Array , default :[]},
+    types : {type :Array , default :[]},
+    factions : {type :Array , default :[]},
     description : String,
     image : String,
     created: {type: Date, default: Date.now},

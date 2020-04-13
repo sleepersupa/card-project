@@ -10,7 +10,7 @@ export class CardFormModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            card: !props.card ? {} : props.card ,
+            card: !props.card ? {faction: null } : props.card ,
             selectedGame : !props.card ? null : props.games.find( g => g._id === props.card.game) ,
         };
     }
@@ -38,7 +38,8 @@ export class CardFormModal extends React.Component {
         console.log(this.state)
         let validations = [
             {"card_name": [required("Card Name"), minLength(3, "Card Name")]},
-            {"type": [required("Type"), minLength(3, "Type")]},
+            {"type": [required("Type")]},
+            {"faction": [required("Faction")]},
             {"filePath": [required("Image")]},
             {"game": [required("Game")]},
         ]
@@ -64,13 +65,6 @@ export class CardFormModal extends React.Component {
                                     type="card_name"
                                     error={getInvalidByKey("card_name")}
                                 />
-                                <Input
-                                    value={card.type}
-                                    label='Type'
-                                    onChange={(e) => this.setState({card: {...card, type: e.target.value}})}
-                                    type="type"
-                                    error={getInvalidByKey("type")}
-                                />
 
                                 <SlSelect
                                     label="Game"
@@ -81,11 +75,44 @@ export class CardFormModal extends React.Component {
                                         </div>
                                     )}
                                     value={selectedGame}
-                                    onChange={(value) => this.setState({selectedGame :value, card: {...card, game:  value? value._id : null }})}
+                                    onChange={(value) => this.setState({selectedGame :value, card: {...card, game:  value? value._id : null , type :null , faction : null  }})}
                                     list={games}
                                     error={getInvalidByKey("game")}
                                     maxHeight={200}
                                 />
+
+                                <SlSelect
+                                    label="Type"
+                                    display={(item) => !item ? "Please select a type" :(
+                                        <div>
+                                            {item}
+                                        </div>
+                                    )}
+
+                                    value={card.type}
+                                    onChange={(value) => {
+                                        this.setState( {card : {...card, type : value}})
+                                    }}
+                                    list={games && selectedGame? games.find(g => g._id === selectedGame._id).types : []}
+                                    maxHeight={200}
+                                />
+
+                                <SlSelect
+                                    label="Faction"
+                                    display={(item) => !item ? "Please select a faction" :(
+                                        <div>
+                                            {item}
+                                        </div>
+                                    )}
+
+                                    value={card.faction}
+                                    onChange={(value) => {
+                                        this.setState( {card : {...card, faction : value}})
+                                    }}
+                                    list={games && selectedGame? games.find(g => g._id === selectedGame._id).factions : []}
+                                    maxHeight={200}
+                                />
+
 
                                 <div className="form-group">
                                     <UploadImage

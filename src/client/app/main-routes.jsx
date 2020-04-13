@@ -18,6 +18,7 @@ import {AppLayout} from "./app-layout";
 import {getParams} from "./pages/card-commonds";
 import {HeroDisplay} from "./pages/hero-display/hero-display";
 import {gameApi} from "../api/game/game-api";
+import {LoadingInline} from "./common/loading/loading-2";
 
 let redirect = (locate) => {
     return class RedirectRoute extends BaseComponent {
@@ -106,17 +107,25 @@ export class MainRoutes extends BaseComponent {
                                     render={(props) => (
                                         <DefaultLayout {...props}>
                                             {(layoutProps) => (
-                                                <Fragment>
-                                                    {gameRoutes.map((route , index) => (
-                                                        <GameRoute
-                                                            exact
-                                                            key={route.path}
-                                                            path={route.path}
-                                                            Wrapper={route.component}
-                                                            {...layoutProps}
-                                                        />
-                                                    ))}
-                                                </Fragment>
+                                                <GameRoute
+                                                    {...props}
+                                                >
+                                                    {({game, config})=> (
+                                                        <Fragment>
+                                                            {gameRoutes.map((route , index) => (
+                                                                <Route
+                                                                    exact
+                                                                    key={route.path}
+                                                                    path={route.path}
+                                                                    render={(propsRoute) => {
+                                                                        let Wrapper = route.component;
+                                                                        return <Wrapper {...propsRoute} {...{game, config}}/>
+                                                                    }}
+                                                                />
+                                                            ))}
+                                                        </Fragment>
+                                                    )}
+                                                </GameRoute>
 
                                             )}
 
@@ -148,15 +157,11 @@ class GameRoute extends React.Component {
 
     render() {
         let {game} = getParams(this.props);
-        const {Wrapper , path} = this.props;
+        const {children} = this.props;
         const { config } = this.state ;
 
-        return (
-            <Route
-                exact
-                path={path}
-                render={(props) => <Wrapper {...props} {...{game, config}}/>}
-            />
-        )
+        if(!game ||  !config) return <div>Something went wrong !!!</div>;
+
+        return children && children({game, config});
     }
 }

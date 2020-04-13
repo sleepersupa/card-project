@@ -51,7 +51,7 @@ export class HeroDisplay extends React.Component {
         const {hero ,votes, loading, builds, pve_votes, pvp_votes} = this.state ;
 
         let {game} = getParams(this.props);
-
+        let {config} = this.props;
         let columns = [
             {
                 label: 'Build Name',
@@ -106,6 +106,7 @@ export class HeroDisplay extends React.Component {
         return(
             <PageFormLayout
                 {...this.props}
+                {...{config}}
             >
                 {({cards})=> !hero ? <LoadingInline/> :(
                     <div className='hero-display'>

@@ -12,7 +12,7 @@ export class GameFormModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            game: props.game ? props.game : {tags:[]}
+            game: props.game ? props.game : {tags:[] , types :[], factions :[]}
         };
     }
 
@@ -106,6 +106,21 @@ export class GameFormModal extends React.Component {
                                         />
 
                                         <TagsForm
+                                            label="Types"
+                                            tags={game.types || []}
+                                            onEnter={(value) => value.length >0 && this.setState({ game : {...game, types :[...(game.types||[]) ,value.trim()] }})}
+                                            onRemove={(value) => this.setState({game : {...game, types : game.types.filter(t => t!== value )}})}
+                                        />
+
+                                        <TagsForm
+                                            label="Factions"
+                                            tags={game.factions || []}
+                                            onEnter={(value) => value.length >0 && this.setState({ game : {...game, factions :[...(game.factions||[]) ,value.trim()] }})}
+                                            onRemove={(value) => this.setState({game : {...game, factions : game.factions.filter(t => t!== value )}})}
+                                        />
+
+                                        <TagsForm
+                                            label="Tags"
                                             tags={game.tags || []}
                                             onEnter={(value) => value.length >0 && this.setState({ game : {...game, tags :[...(game.tags||[]) ,value.trim()] }})}
                                             onRemove={(value) => this.setState({game : {...game, tags : game.tags.filter(t => t!== value )}})}

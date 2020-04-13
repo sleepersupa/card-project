@@ -4,6 +4,7 @@ mongoose.plugin(slug);
 module.exports= mongoose.model("CardDao",{
     card_name: String,
     type : String,
+    faction : String,
     filePath :String,
     game : String,
     created: {type: Date, default: Date.now},
